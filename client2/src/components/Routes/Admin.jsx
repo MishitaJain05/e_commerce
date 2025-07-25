@@ -1,37 +1,36 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../../context/authContext";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
+import axios from "axios";
 import Spinner from "../Spinner";
-import axios from "axios"; // ✅ Make sure axios is imported
 
 const Admin = () => {
+  const [ok, setOk] = useState(false);
   const [auth] = useAuth();
-  const [ok, setOK] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAdmin = async () => {
       try {
-        const res = await axios.get("/api/auth/admin/dashboard", {
-          headers: {
-            Authorization: auth?.token,
-          },
-        });
+        const res = await axios.get(
+          "http://localhost:8080/api/auth/admin/dashboard",
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.token}`,
+            },
+          }
+        );
 
-        if (res.data.ok) {
-          setOK(true);
-        } else {
-          setOK(false);
-          navigate("/signin");
-        }
-      } catch (error) {
-        console.error("Error verifying admin:", error);
-        setOK(false);
+        if (res.data?.ok) setOk(true);
+        else navigate("/signin");
+      } catch (err) {
+        console.error("Admin route check failed:", err);
         navigate("/signin");
       }
     };
 
-    if (auth?.token) checkAuth(); // ✅ only run if token exists
+    if (auth?.token) checkAdmin();
+    else navigate("/signin");
   }, [auth?.token, navigate]);
 
   return ok ? <Outlet /> : <Spinner path="" />;

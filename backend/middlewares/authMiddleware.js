@@ -3,14 +3,16 @@ const JWT = require("jsonwebtoken");
 //Protected Routes token base
 exports.requireSignIn = async (req, res, next) => {
   try {
-    const decode = JWT.verify(
-      req.headers.authorization,
-      process.env.JWT_SECRET
-    );
+    const token = req.headers.authorization?.split(" ")[1]; // Remove "Bearer"
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+    const decode = JWT.verify(token, process.env.JWT_SECRET);
     req.user = decode;
     next();
   } catch (error) {
-    console.log(error);
+    console.log("JWT error:", error.message);
+    return res.status(401).json({ message: "Invalid token" });
   }
 };
 

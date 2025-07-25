@@ -21,4 +21,4 @@ authRouter.get("/user/dashboard", requireSignIn, (req, res) => {
   });
 });
 
-module.exports = { authRouter };
+module.exports = authRouter;

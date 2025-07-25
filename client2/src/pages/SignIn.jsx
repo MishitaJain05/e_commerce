@@ -26,21 +26,26 @@ const SignIn = () => {
         form
       );
 
-      if (res.status === 201) {
+      if (res.status === 201 && res.data.token) {
         toast.success("Sign in successful!");
-        setAuth({
-          ...auth,
+
+        // Save token & user in context
+        const authData = {
           user: res.data.user,
           token: res.data.token,
-        });
+        };
+        setAuth(authData);
 
-        localStorage.setItem("auth", JSON.stringify(res.data));
+        // Save to localStorage
+        localStorage.setItem("auth", JSON.stringify(authData));
+
+        // Navigate
         navigate(location.state || "/");
       } else {
-        toast.error("Sign in failed.");
+        toast.error(res.data.message || "Sign in failed.");
       }
     } catch (error) {
-      toast.error("Sign in failed.");
+      toast.error(error.response?.data?.message || "Sign in failed.");
     }
   };
 
@@ -48,11 +53,7 @@ const SignIn = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
-        <form
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block mb-1 font-medium">
               Email
@@ -61,6 +62,8 @@ const SignIn = () => {
               type="email"
               id="email"
               name="email"
+              value={form.email}
+              onChange={handleChange}
               required
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
             />
@@ -73,6 +76,8 @@ const SignIn = () => {
               type="password"
               id="password"
               name="password"
+              value={form.password}
+              onChange={handleChange}
               required
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
             />
