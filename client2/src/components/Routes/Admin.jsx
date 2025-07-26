@@ -21,10 +21,12 @@ const Admin = () => {
           }
         );
 
-        if (res.data?.ok) setOk(true);
-        else navigate("/signin");
+        if (res.data?.ok) {
+          setOk(true);
+        } else {
+          navigate("/signin");
+        }
       } catch (err) {
-        console.error("Admin route check failed:", err);
         navigate("/signin");
       }
     };
@@ -33,7 +35,7 @@ const Admin = () => {
     else navigate("/signin");
   }, [auth?.token, navigate]);
 
-  return ok ? <Outlet /> : <Spinner path="" />;
+  return ok ? <Outlet /> : <Spinner />;
 };
 
 export default Admin;

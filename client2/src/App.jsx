@@ -12,8 +12,10 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/User/Dashboard";
 import Private from "./components/Routes/Private";
-import Admin from "./components/Routes/Admin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import Admin from "./components/Routes/Admin.jsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import CreateCategory from "./pages/admin/CreateCategory.jsx";
+import CreateProduct from "./pages/admin/CreateProduct.jsx";
 
 const App = () => {
   return (
@@ -30,13 +32,15 @@ const App = () => {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/signin" element={<SignIn />} />
 
-              <Route path="/user/*" element={<Private />}>
+              <Route path="/user" element={<Private />}>
                 <Route path="dashboard" element={<Dashboard />} />
               </Route>
 
-              <Route path="/admin" element={<Admin />}>
-                <Route path="dashboard" element={<AdminDashboard />} />
-              </Route>
+              {/* <Route path="/admin" element={<Admin />}> */}
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="create-category" element={<CreateCategory />} />
+              <Route path="create-product" element={<CreateProduct />} />
+              {/* </Route> */}
 
               <Route path="/*" element={<PageNotFound />} />
             </Routes>

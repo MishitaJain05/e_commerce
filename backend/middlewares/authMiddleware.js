@@ -1,38 +1,38 @@
 const JWT = require("jsonwebtoken");
+const userModel = require("../models/userModel");
 
-//Protected Routes token base
 exports.requireSignIn = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1]; // Remove "Bearer"
+    let token = null;
+
+    if (req.headers.authorization) {
+      token = req.headers.authorization.split(" ")[1]; // Bearer token
+    } else if (req.query.Authorization) {
+      token = req.query.Authorization; // fallback to query param
+    }
+
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
+
     const decode = JWT.verify(token, process.env.JWT_SECRET);
     req.user = decode;
     next();
   } catch (error) {
-    console.log("JWT error:", error.message);
-    return res.status(401).json({ message: "Invalid token" });
+    console.log(error);
+    res.status(401).send({ message: "Invalid or expired token" });
   }
 };
 
 exports.isAdmin = async (req, res, next) => {
   try {
     const user = await userModel.findById(req.user._id);
-    if (user.isAdmin !== true) {
-      return res.status(401).send({
-        success: false,
-        message: "UnAuthorized Access",
-      });
-    } else {
-      next();
+    if (!user || !user.isAdmin) {
+      return res.status(401).send({ message: "Unauthorized Access" });
     }
+    next();
   } catch (error) {
-    console.log(error);
-    res.status(401).send({
-      success: false,
-      error,
-      message: "Error in admin middelware",
-    });
+    console.error("isAdmin error:", error.message);
+    res.status(401).send({ message: "Error in admin middleware" });
   }
 };
