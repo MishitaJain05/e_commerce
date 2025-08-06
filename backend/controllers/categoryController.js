@@ -53,6 +53,12 @@ exports.createCategory = async (req, res) => {
   }
 
   try {
+    if (await categoryModel.findOne({ slug: slugify(name) })) {
+      return res.json({
+        success: false,
+        message: "Category already exists",
+      });
+    }
     const newCategory = new categoryModel({ name, slug: slugify(name) });
     await newCategory.save();
     res.status(201).send({
@@ -70,7 +76,7 @@ exports.createCategory = async (req, res) => {
 };
 
 exports.updateCategory = async (req, res) => {
-  const slug = req.params.slug;
+  const id = req.params.id;
   const { name } = req.body;
 
   if (!name) {
@@ -81,7 +87,7 @@ exports.updateCategory = async (req, res) => {
 
   try {
     const newCategory = await categoryModel.findOneAndUpdate(
-      { slug },
+      { _id: id },
       {
         name,
         slug: slugify(name),
@@ -110,10 +116,10 @@ exports.updateCategory = async (req, res) => {
 };
 
 exports.deleteCategory = async (req, res) => {
-  const slug = req.params.slug;
+  const id = req.params.id;
 
   try {
-    const deletedCategory = await categoryModel.findOneAndDelete({ slug });
+    const deletedCategory = await categoryModel.findOneAndDelete({ _id: id });
     if (!deletedCategory) {
       return res.status(404).send({
         success: false,

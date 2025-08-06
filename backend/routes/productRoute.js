@@ -8,8 +8,6 @@ const productRouter = express.Router();
 //routes
 productRouter.post(
   "/create-product",
-  requireSignIn,
-  isAdmin,
   formidable(),
   productController.createProduct
 );
@@ -22,12 +20,12 @@ productRouter.put(
   productController.updateProduct
 );
 
-productRouter.get("/get-product", productController.getProducts);
+productRouter.get("/get-products", productController.getProducts);
 
 productRouter.get("/get-product/:slug", productController.getSingleProduct);
 
 productRouter.get("/product-photo/:pid", productController.getPhoto);
 
-productRouter.delete("/product/:pid", productController.deleteProduct);
+productRouter.delete("/delete-product/:pid", productController.deleteProduct);
 
 module.exports = productRouter;

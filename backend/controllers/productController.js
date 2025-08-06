@@ -40,7 +40,7 @@ exports.updateProduct = async (req, res) => {
   try {
     const updated_fields = req.fields;
     const { photo } = req.files;
-    const pid = req.params.id;
+    const pid = req.params.pid;
 
     const updated_product = await productModel.findByIdAndUpdate(
       pid,

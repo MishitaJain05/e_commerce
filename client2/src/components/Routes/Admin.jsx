@@ -16,7 +16,7 @@ const Admin = () => {
           "http://localhost:8080/api/auth/admin/dashboard",
           {
             headers: {
-              Authorization: `Bearer ${auth?.token}`,
+              Authorization: `${auth?.token}`,
             },
           }
         );

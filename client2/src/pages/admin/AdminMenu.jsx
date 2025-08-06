@@ -15,7 +15,7 @@ const AdminMenu = () => {
         </li>
         <li className="my-4">
           <a
-            href="/dashboard/admin/create-category"
+            href="/admin/create-category"
             className="no-underline text-gray-800 hover:text-blue-600"
           >
             Create Category
@@ -23,7 +23,7 @@ const AdminMenu = () => {
         </li>
         <li className="my-4">
           <a
-            href="/dashboard/admin/users"
+            href="/admin/users"
             className="no-underline text-gray-800 hover:text-blue-600"
           >
             Users

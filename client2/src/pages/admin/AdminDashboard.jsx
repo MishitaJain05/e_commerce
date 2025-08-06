@@ -7,9 +7,9 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-      <AdminMenu />
+      {/* <h1 className="text-2xl font-bold">Admin Dashboard</h1> */}
       <div>
+        <AdminMenu />
         <h3>Admin : {auth?.user?.name}</h3>
       </div>
     </>

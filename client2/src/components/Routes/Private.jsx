@@ -11,7 +11,7 @@ const Private = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const res = await axios.get("/api/auth/user/dashboard", {
-        headers: { Authorization: `Bearer ${auth?.token}` },
+        headers: { Authorization: ` ${auth?.token}` },
       });
       setOK(res.data.ok);
     };
