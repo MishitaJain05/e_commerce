@@ -7,7 +7,7 @@ const AdminMenu = () => {
       <ul className="list-none p-0">
         <li className="my-4">
           <a
-            href="/dashboard/admin/create-product"
+            href="/admin/create-product"
             className="no-underline text-gray-800 hover:text-blue-600"
           >
             Create Product

@@ -48,7 +48,7 @@ const App = () => {
 
               <Route path="admin/products" element={<Products />} />
               <Route
-                path="admin/update-product/:pid"
+                path="admin/update-product/:id"
                 element={<UpdateProduct />}
               />
               {/* </Route> */}

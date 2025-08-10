@@ -28,4 +28,10 @@ productRouter.get("/product-photo/:pid", productController.getPhoto);
 
 productRouter.delete("/delete-product/:pid", productController.deleteProduct);
 
+productRouter.post("/product-filters", productController.getProductFilters);
+
+productRouter.get("/product-count", productController.getProductCount);
+
+productRouter.get("/product-list/:page", productController.getProductList);
+
 module.exports = productRouter;

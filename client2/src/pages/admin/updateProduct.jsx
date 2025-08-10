@@ -68,7 +68,7 @@ const UpdateProduct = () => {
       if (photo) formData.append("photo", photo);
 
       const { data } = await axios.put(
-        `${import.meta.env.VITE_API}/product/update-product/${product._id}`,
+        `${import.meta.env.VITE_API}/product/update-product/${id}`,
         formData
       );
 
@@ -81,6 +81,21 @@ const UpdateProduct = () => {
     } catch (err) {
       console.error(err);
       toast.error("Error updating product");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      let answer = window.prompt("Are You Sure want to delete this product ? ");
+      if (!answer) return;
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_API}/product/delete-product/${id}`
+      );
+      toast.success("Product Deleted Successfully");
+      navigate("/admin/products");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
     }
   };
 
